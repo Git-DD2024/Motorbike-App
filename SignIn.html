@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 8vw;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        fieldset {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            position: relative;
+        }
+
+        legend {
+            font-size: 14px;
+            color: rgba(128, 128, 128, 0.8);
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 16px;
+            padding-right: 30px;
+        }
+
+        .signin-btn button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: rgb(29, 153, 229);
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            color: gray;
+        }
+
+        .icon {
+            position: absolute;
+            right: 30px;
+            top: 10px;
+            font-size: 18px;
+            display: none;
+        }
+
+        .valid {
+            color: green;
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: red;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 1000;
+        }
+
+        .popup.success {
+            background: green;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0px 5px;
+            width: 80%;
+        }
+
+        .separator hr {
+            flex: 1;
+            border: none;
+            height: 1px;
+            background: #ccc;
+        }
+
+        .separator span {
+            padding: 0 10px;
+            color: #555;
+        }
+
+        .contact-logos {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            ;
+        }
+
+        .logo-box {
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(128, 128, 128, 0.6);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .logo-box img {
+            width: 40px;
+            height: auto;
+        }
+
+        /* Slide out animation */
+        .slide-out {
+            animation: slideOut 0.5s ease-in-out forwards;
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        .sign-in {
+            margin-top: 50px;
+            font-size: 15px;
+            color: rgba(128, 128, 128, 0.7);
+        }
+
+        .sign-in a {
+            text-decoration: none;
+            color: rgb(29, 153, 229);
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="popup" id="popup"></div>
+    <div id="mainPage" class="container">
+        <h1>Sign In to Your RideX Account</h1>
+        <form id="signinForm">
+            <fieldset>
+                <legend>Email</legend>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                <span id="emailIcon" class="icon">✔️</span>
+                <div id="emailError" class="error-message"></div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Password</legend>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+                <span class="eye-icon" id="passwordEye">👁️</span>
+                <span id="passwordIcon" class="icon">✔️</span>
+                <div id="passwordError" class="error-message"></div>
+            </fieldset>
+
+            <div class="signin-btn">
+                <button type="submit">Log In</button>
+            </div>
+        </form>
+
+        <div class="separator">
+            <hr>
+            <span>Or</span>
+            <hr>
+        </div>
+
+        <div class="contact-logos">
+            <div class="logo-box">
+                <img src="Images/facebook-logo.jpg" alt="Facebook">
+            </div>
+            <div class="logo-box">
+                <img src="Images/google-logo.png" alt="Google">
+            </div>
+            <div class="logo-box">
+                <img src="Images/microsoft-logo.png" alt="Microsoft">
+            </div>
+        </div>
+
+        <div class="sign-in">
+            <p>Don't have an account? <a href="SignUp.html">Sign Up</a></p>
+        </div>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("users")) {
+            localStorage.setItem("users", JSON.stringify([
+                { email: "user1@example.com", password: "Password123" },
+                { email: "user2@example.com", password: "SecurePass456" },
+                { email: "user3@example.com", password: "RideX789" }
+            ]));
+        }
+    
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const signinBtn = document.querySelector(".signin-btn button");
+        const emailIcon = document.getElementById("emailIcon");
+        const passwordIcon = document.getElementById("passwordIcon");
+        const popup = document.getElementById("popup");
+        const emailError = document.getElementById("emailError");
+        const passwordError = document.getElementById("passwordError");
+    
+        // Show popup with success or error message
+        function showPopup(message, type) {
+            popup.textContent = message;
+            popup.className = `popup ${type === "success" ? "success" : ""}`;
+            popup.style.display = "block";
+            setTimeout(() => { popup.style.display = "none"; }, 3000);
+        }
+    
+        // Show valid icon next to input field
+        function showValidIcon(icon) {
+            icon.textContent = "✔️";
+            icon.classList.remove("invalid");
+            icon.classList.add("valid");
+            icon.style.display = "inline";
+        }
+    
+        // Show invalid icon next to input field
+        function showInvalidIcon(icon) {
+            icon.textContent = "❌";
+            icon.classList.remove("valid");
+            icon.classList.add("invalid");
+            icon.style.display = "inline";
+        }
+    
+        // Validate email with regex pattern
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+            if (!email) {
+                emailError.textContent = "Email is required.";
+                showInvalidIcon(emailIcon);
+                return;
+            }
+    
+            if (!emailPattern.test(email)) {
+                emailError.textContent = "Please enter a valid email address.";
+                showInvalidIcon(emailIcon);
+            } else {
+                emailError.textContent = "";
+                showValidIcon(emailIcon);
+            }
+        }
+    
+        let passwordTimeout;
+        // Validate password by checking credentials in localStorage after the user stops typing
+        function validatePassword() {
+            clearTimeout(passwordTimeout); // Clear the previous timeout to reset the timer
+    
+            passwordTimeout = setTimeout(function () {
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+                const users = JSON.parse(localStorage.getItem("users"));
+                const userMatch = users.some(user => user.email === email && user.password === password);
+    
+                if (!password) {
+                    passwordError.textContent = "Password is required.";
+                    showInvalidIcon(passwordIcon);
+                    return;
+                }
+    
+                if (userMatch) {
+                    passwordError.textContent = "";
+                    showValidIcon(passwordIcon);
+                } else {
+                    passwordError.textContent = "Incorrect password.";
+                    showInvalidIcon(passwordIcon);
+                }
+    
+                toggleSignInButton();
+            }, 500); // Wait for 500ms after the user stops typing
+        }
+    
+        // Enable/disable sign-in button based on input validity
+        function toggleSignInButton() {
+            if (emailIcon.classList.contains("valid") && passwordIcon.classList.contains("valid")) {
+                signinBtn.disabled = false;
+            } else {
+                signinBtn.disabled = true;
+            }
+        }
+    
+        // Form submission handler
+        document.getElementById("signinForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+    
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            const users = JSON.parse(localStorage.getItem("users"));
+            const userMatch = users.find(user => user.email === email && user.password === password);
+    
+            if (userMatch) {
+                showPopup("Login successful! Redirecting...", "success");
+                setTimeout(() => { window.location.href = "home.html"; }, 1500);
+            } else {
+                showPopup("Invalid credentials. Please try again.", "error");
+                emailInput.value = "";
+                passwordInput.value = "";
+                emailIcon.style.display = "none";
+                passwordIcon.style.display = "none";
+                signinBtn.disabled = true;
+            }
+        });
+    
+        // Event listeners for real-time validation
+        emailInput.addEventListener("input", validateEmail);
+        passwordInput.addEventListener("input", validatePassword);
+    
+        document.getElementById("passwordEye").addEventListener("click", function () {
+            const passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        });
+    </script>
+    
+</body>
+
+</html>
